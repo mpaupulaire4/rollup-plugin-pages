@@ -1,0 +1,8 @@
+{
+  path: '{{path}}',
+  handlers: [
+    {{#handlers}}
+    [{{name}}, {{#data}}{{name}}FN{{/data}}{{^data}}null{{/data}}]
+    {{/handlers}}
+  ]
+},

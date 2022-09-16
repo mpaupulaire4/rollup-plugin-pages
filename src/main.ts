@@ -1,4 +1,5 @@
-import './vite-env';
+import routes from 'virtual:fs-routes';
+
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <pre><code>${JSON.stringify({ something: 'here' }, null, 2)}</code></pre>
+  <pre><code>${JSON.stringify(routes, null, 2)}</code></pre>
 `;
