@@ -26,7 +26,7 @@ export default defineConfig({
         'fs/promises',
         'fs',
         'path',
-        'regexparam',
+        'mustache',
         'svelte',
       ],
       plugins: [

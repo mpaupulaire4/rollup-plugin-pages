@@ -1,12 +1,13 @@
 import type { Plugin } from 'vite';
 import { resolve, basename } from 'path';
-import template from './templates';
-import { parseFS, getMatcer, type MatcherOptions } from './parseFS';
+export * from './configs';
+import { parseFS, getMatcer, type MatcherOptions, type Route } from './parseFS';
 // const templates = require('./templates');
 
 export type Config = Partial<MatcherOptions> & {
   rootDir?: string;
   virtual?: string;
+  render?: (routes: Route[]) => string;
 };
 
 const DefaultOptions: MatcherOptions = {
@@ -21,6 +22,7 @@ const DefaultOptions: MatcherOptions = {
 export function FileRouter({
   rootDir = './src/pages',
   virtual = `virtual:fs-routes`,
+  render = data => `export default ${JSON.stringify(data)};`,
   ...options
 }: Config = {}): Plugin {
   rootDir = resolve(rootDir);
@@ -50,9 +52,7 @@ export function FileRouter({
     },
     async load(id) {
       if (id !== resolvedVirtual) return null;
-      const routes = await parseFS(rootDir, matcher);
-      const code = template(routes);
-      return code;
+      return render(await parseFS(rootDir, matcher));
     },
   };
 }

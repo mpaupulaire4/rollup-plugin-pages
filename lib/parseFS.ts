@@ -13,7 +13,7 @@ export enum FileType {
   MIDDLEWARE,
 }
 
-interface Route {
+export interface Route {
   path: string;
   handlers: Handler[];
 }
