@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite';
 import { resolve, basename } from 'path';
-export * from './configs';
+export * from './configs/index';
 import { parseFS, getMatcer, type MatcherOptions, type Route } from './parseFS';
 // const templates = require('./templates');
 
