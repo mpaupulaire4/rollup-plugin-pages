@@ -1,2 +1,1 @@
-export * from './svelte'
-
+export * from './svelte';

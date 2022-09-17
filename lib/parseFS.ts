@@ -30,7 +30,7 @@ type Match = {
   meta?: string;
 };
 
-type Matcher = (path: string) => Match;
+type Matcher = (path: string) => Match | undefined;
 
 export function getMatcer(config: MatcherOptions): Matcher {
   return function matcher(path: string) {
@@ -53,6 +53,7 @@ export function getMatcer(config: MatcherOptions): Matcher {
     ) {
       return { type, meta: match[3] };
     }
+    return;
   };
 }
 

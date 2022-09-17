@@ -23,3 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 ./dist
+src/**/*.js
+src/**/*.js.map
+lib/**/*.js
+lib/**/*.js.map
+test/**/*.js
+test/**/*.js.map
