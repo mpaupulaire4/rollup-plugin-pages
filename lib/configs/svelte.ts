@@ -1,6 +1,6 @@
 import M from 'mustache';
-import { Route } from '../parseFS';
-import { Config } from '..';
+import { Route } from '../parseFS.js';
+import { Config } from '../index.js';
 
 const template = `{{> imports}}
 
