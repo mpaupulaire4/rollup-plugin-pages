@@ -22,7 +22,7 @@ import {{&name}}FN from "{{&data}}";
   path: '{{&path}}',
   handlers: [
     {{#handlers}}
-    [{{name}}, {{#data}}{{&name}}FN{{/data}}{{^data}}null{{/data}}]
+    [{{name}}, {{#data}}{{&name}}FN{{/data}}{{^data}}null{{/data}}],
     {{/handlers}}
   ]
 },
