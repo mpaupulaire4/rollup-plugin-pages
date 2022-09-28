@@ -14,7 +14,5 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom',
-    // includeSource: ['lib/**/*.{js,ts,svelte}'],
   },
 });
