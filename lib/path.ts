@@ -12,7 +12,7 @@ export interface PathSpec {
   pattern: string;
 }
 
-function getKind(char?: string) {
+function getKind(char?: string): PathKind {
   switch (char) {
     case '*':
       return PathKind.STAR;
@@ -25,7 +25,7 @@ function getKind(char?: string) {
   }
 }
 
-function getPattern(kind: PathKind, key: string) {
+function getPattern(kind: PathKind, key: string): string {
   switch (kind) {
     case PathKind.ONE:
       return '\\/([^/]+)';
@@ -40,11 +40,23 @@ function getPattern(kind: PathKind, key: string) {
   }
 }
 
-export function parse_path(id: string): PathSpec {
+export function to_regex(parts: PathSpec[]): [string, string[]] {
+  const keys: string[] = [];
+  const pattern = parts.reduce((agg, p) => {
+    if (p.kind !== PathKind.STATIC) {
+      keys.push(p.key);
+    }
+    return `${agg}${p.pattern}`;
+  }, '/^');
+  return [`${pattern}\\/?$/`, keys];
+}
+
+export function parse_path(id: string, last = false): PathSpec {
+  const append = last ? '\\/?' : '';
   // groups don't effect the path.
   if (!id || id === '/' || /^\([^)]+\)$/.test(id)) {
     return {
-      pattern: '',
+      pattern: append,
       key: '',
       kind: PathKind.STATIC,
     };
@@ -57,13 +69,13 @@ export function parse_path(id: string): PathSpec {
     return {
       kind: kind,
       key: match[1],
-      pattern: getPattern(kind, match[1]),
+      pattern: getPattern(kind, match[1]) + append,
     };
   }
 
   // otherwise treat it as static
   return {
-    pattern: getPattern(PathKind.STATIC, id),
+    pattern: getPattern(PathKind.STATIC, id) + append,
     key: id,
     kind: PathKind.STATIC,
   };

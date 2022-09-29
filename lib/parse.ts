@@ -31,16 +31,20 @@ function file_to_key(file: string) {
   return keys;
 }
 
-export function add(fs: ParsedFS, file: string) {
+export function add(fs: ParsedFS, file = '') {
   const keys = file_to_key(file);
   if (keys) {
     set(fs, keys, file);
+    return true;
   }
+  return false;
 }
 
-export function remove(fs: ParsedFS, file: string) {
+export function remove(fs: ParsedFS, file = '') {
   const keys = file_to_key(file);
   if (keys) {
     set(fs, keys, undefined);
+    return true;
   }
+  return false;
 }
