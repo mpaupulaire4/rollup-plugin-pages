@@ -49,15 +49,15 @@ export function FileRouter({
     name: 'rollup-plugin-pages',
     async buildStart() {
       this.addWatchFile(rootDir);
-      const matchers = get_match_strings(options);
-      const files = await glob(matchers, { onlyFiles: true, cwd: rootDir, unique: true });
-      parsed = parse(files);
+      const matchers = get_match_strings(options, rootDir);
+      const files = await glob(matchers, { onlyFiles: true, unique: true });
+      parsed = parse(files, rootDir);
     },
     configResolved(config) {
       rootDir = join(config.root, rootDir);
     },
     configureServer: ({ watcher, ws, moduleGraph }) => {
-      const matchers = get_match_strings(options);
+      const matchers = get_match_strings(options, rootDir);
       const matches = (file: string) => micromatch.isMatch(file, matchers);
       const update = (path: string) => {
         if (!path.startsWith(rootDir) || !matches(path)) return '';
@@ -68,10 +68,10 @@ export function FileRouter({
         return path;
       };
       watcher.on('add', f => {
-        add(parsed, update(f)) && ws.send({ type: 'full-reload' });
+        add(parsed, update(f), rootDir) && ws.send({ type: 'full-reload' });
       });
       watcher.on('unlink', f => {
-        remove(parsed, update(f)) && ws.send({ type: 'full-reload' });
+        remove(parsed, update(f), rootDir) && ws.send({ type: 'full-reload' });
       });
     },
     resolveId(id) {

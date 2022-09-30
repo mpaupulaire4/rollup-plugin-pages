@@ -59,12 +59,100 @@ describe('parse', () => {
   });
 
   it(`parses files to treelike structure`, () => {
-    const out = parse(files);
-    expect(out).toEqual(parsed);
+    const out = parse(files, '');
+    expect(out).toEqual({
+      [RouteSym]: {
+        page: {
+          [MainSym]: '+page.ts',
+        },
+        layout: {
+          [MainSym]: '+layout.ts',
+        },
+      },
+      page: {
+        [RouteSym]: {
+          page: {
+            [MainSym]: 'page/+page.ts',
+          },
+          layout: {
+            [MainSym]: 'page/+layout.ts',
+            data: 'page/+layout.data.ts',
+          },
+        },
+      },
+      '(group)': {
+        [RouteSym]: {
+          layout: {
+            [MainSym]: '(group)/+layout.ts',
+          },
+        },
+        group1: {
+          [RouteSym]: {
+            page: {
+              [MainSym]: '(group)/group1/+page.ts',
+            },
+          },
+        },
+        group2: {
+          [RouteSym]: {
+            page: {
+              [MainSym]: '(group)/group2/+page.ts',
+            },
+          },
+        },
+      },
+    });
+  });
+
+  it(`parses files to treelike structure ignoring root`, () => {
+    const rooted = files.map(f => `/some/root/${f}`);
+    const out = parse(rooted, '/some/root/');
+    expect(out).toEqual({
+      [RouteSym]: {
+        page: {
+          [MainSym]: '/some/root/+page.ts',
+        },
+        layout: {
+          [MainSym]: '/some/root/+layout.ts',
+        },
+      },
+      page: {
+        [RouteSym]: {
+          page: {
+            [MainSym]: '/some/root/page/+page.ts',
+          },
+          layout: {
+            [MainSym]: '/some/root/page/+layout.ts',
+            data: '/some/root/page/+layout.data.ts',
+          },
+        },
+      },
+      '(group)': {
+        [RouteSym]: {
+          layout: {
+            [MainSym]: '/some/root/(group)/+layout.ts',
+          },
+        },
+        group1: {
+          [RouteSym]: {
+            page: {
+              [MainSym]: '/some/root/(group)/group1/+page.ts',
+            },
+          },
+        },
+        group2: {
+          [RouteSym]: {
+            page: {
+              [MainSym]: '/some/root/(group)/group2/+page.ts',
+            },
+          },
+        },
+      },
+    });
   });
 
   it(`can add a file`, () => {
-    add(parsed, 'new/route/+page.ts');
+    add(parsed, 'new/route/+page.ts', '');
     expect(parsed).toEqual({
       new: {
         route: {
@@ -119,7 +207,7 @@ describe('parse', () => {
   });
 
   it(`can remove a meta file`, () => {
-    remove(parsed, 'page/+layout.data.ts');
+    remove(parsed, 'page/+layout.data.ts', '');
     expect(parsed).toEqual({
       [RouteSym]: {
         page: {
@@ -164,7 +252,7 @@ describe('parse', () => {
   });
 
   it(`can remove a main file`, () => {
-    remove(parsed, 'page/+page.ts');
+    remove(parsed, 'page/+page.ts', '');
     expect(parsed).toEqual({
       [RouteSym]: {
         page: {

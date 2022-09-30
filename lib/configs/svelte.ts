@@ -1,7 +1,6 @@
 import M from 'mustache';
 import { type ParsedFS } from '../parse.js';
 import { type Config } from '../index.js';
-import { type Handler as RawHandler } from '../flatten.js';
 import { to_regex } from '../path.js';
 
 const template = `{{> imports}}
@@ -10,7 +9,7 @@ export default [
 {{#routes}}
   {{>obj}}
 {{/routes}}
-]
+];
 `;
 const partials = {
   imports: `{{#imports}}
@@ -63,8 +62,6 @@ const render: Config['render'] = (data: ParsedFS, { as_handlers }) => {
   );
   unique_parts.forEach((u, i) => (u.id = i));
 
-  console.log(unique_parts);
-  console.log(JSON.stringify(handlers, null, 2));
   return M.render(template, { routes: handlers, imports: unique_parts }, partials);
 };
 
