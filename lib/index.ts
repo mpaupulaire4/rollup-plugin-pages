@@ -14,9 +14,7 @@ type Utils = {
 
 export type Config = Partial<MatcherOptions> & {
   rootDir?: string;
-  virtual?: string;
   render?: (routes: ParsedFS, utils: Utils) => string;
-  handlers?: boolean;
 };
 
 const DefaultOptions: MatcherOptions = {
