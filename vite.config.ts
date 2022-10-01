@@ -1,12 +1,19 @@
 import { defineConfig } from 'vitest/config';
 import { resolve } from 'path';
-import { FileRouter } from './lib';
+import { FileRouter, SvelteRouterOptions } from './lib';
 
 const resolvePath = (path: string) => resolve(__dirname, path);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [FileRouter({})],
+  plugins: [
+    FileRouter({
+      ...SvelteRouterOptions,
+      meta: {
+        data: 'ts',
+      },
+    }),
+  ],
   resolve: {
     alias: {
       lib: resolvePath('./lib'),
@@ -14,7 +21,5 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom',
-    // includeSource: ['lib/**/*.{js,ts,svelte}'],
   },
 });

@@ -21,14 +21,17 @@
     "lint": "eslint './lib/**/*.ts'",
     "lint:fix": "yarn lint --fix",
     "prelint:fix": "yarn format",
-    "test": "echo vitest",
+    "test": "vitest",
     "coverage": "vitest run --coverage",
     "dev": "vite",
     "build": "tsc",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/jest": "^29.0.3",
+    "@types/micromatch": "^4.0.2",
     "@types/mustache": "^4.2.1",
+    "@types/set-value": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "@vitest/coverage-c8": "^0.23.2",
@@ -40,7 +43,10 @@
     "vitest": "^0.23.2"
   },
   "dependencies": {
-    "mustache": "^4.2.0"
+    "fast-glob": "^3.2.12",
+    "micromatch": "^4.0.5",
+    "mustache": "^4.2.0",
+    "set-value": "^4.1.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
