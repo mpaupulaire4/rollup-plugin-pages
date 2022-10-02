@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "license": "MIT",
   "types": "./types/lib/index.d.ts",
-  "module": "./lib/index.js",
-  "main": "./lib/index.js",
+  "module": "./dist/lib/index.js",
+  "main": "./dist/lib/index.js",
   "author": "Michel Paupulaire <mpaupulaire4@gmail.com>",
   "repository": "git@github.com:mpaupulaire4/rollup-plugin-pages.git",
   "type": "module",
   "files": [
-    "lib",
+    "dist",
     "types"
   ],
   "exports": {
-    ".": "./lib/index.js"
+    ".": "./dist/lib/index.js"
   },
   "scripts": {
     "ci": "yarn lint && yarn test run",

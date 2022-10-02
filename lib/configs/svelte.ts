@@ -32,7 +32,7 @@ import C{{&id}}FN from "{{&meta.data}}";
 };
 
 interface Item {
-  id: number;
+  id?: number;
   main: string;
   meta: Record<string, string>;
 }
@@ -47,7 +47,7 @@ const render: Config['render'] = (data: ParsedFS, { as_handlers }) => {
   const handlers: Handler[] = as_handlers(data).map(h => {
     const [pattern, keys] = to_regex(h.path);
     return {
-      handlers: h.handlers.map(h => ({ meta: h.meta, main: h.main, id: 0 })),
+      handlers: h.handlers,
       pattern,
       keys: `[${keys.map(k => JSON.stringify(k)).join(',')}]`,
     };
